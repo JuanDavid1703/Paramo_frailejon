@@ -155,7 +155,7 @@ def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100)
                     cv.fillPoly(mask_2_pers, [puntos_p], color=1)
                     dice_coef_list.append(dice_coef(mask_2_pers, mask_2_rev, title="Cruce en etiqueta Sinflorecencia"))
                     
-                    ref_mask.append(cv.resize(mask_2_rev, (pixel_ref, int(pixel_ref*W/H)), interpolation=cv.INTER_NEAREST).flatten())
-                    labeled_mask.append(cv.resize(mask_2_pers, (pixel_ref, int(pixel_ref*W/H)), interpolation=cv.INTER_NEAREST).flatten())
+                    ref_mask.append(cv.resize(mask_2_rev, (pixel_ref, int(pixel_ref*W/H)), interpolation=cv.INTER_AREA).flatten())
+                    labeled_mask.append(cv.resize(mask_2_pers, (pixel_ref, int(pixel_ref*W/H)), interpolation=cv.INTER_AREA).flatten())
                     
     return label_labeled, label_ref, num_obj_labeled, num_obj_ref, dice_coef_list, labeled_mask, ref_mask
