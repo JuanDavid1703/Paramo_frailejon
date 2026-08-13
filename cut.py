@@ -81,7 +81,7 @@ def dice_coef(mask_1, mask_2, title: str, graph=False):
     return rate_mask/(total_mask+rate_mask)
 
 
-def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100):
+def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100,  interpolation=cv.INTER_AREA):
     label_labeled=[]
     label_ref=[]
     dice_coef_list=[]
@@ -105,7 +105,7 @@ def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100)
                     dtype=np.int32)
                 
                 try:
-                    del mask_1_rev, mask_1_pers
+                    del mask_1_rev, mask_1_pers, ref_mask_resized, labeled_mask_resised
                 except:
                     pass
                 
@@ -123,8 +123,10 @@ def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100)
                     cv.fillPoly(mask_1_pers, [puntos_p], color=1)
                     dice_coef_list.append(dice_coef(mask_1_pers, mask_1_rev, title="Pic"))
                     
-                    ref_mask.append(cv.resize(mask_1_rev, (pixel_ref, int(pixel_ref*W/H)), interpolation=cv.INTER_NEAREST).flatten())
-                    labeled_mask.append(cv.resize(mask_1_pers, (pixel_ref, int(pixel_ref*W/H)), interpolation=cv.INTER_NEAREST).flatten())
+                    ref_mask_resized=cv.resize(mask_1_rev, (pixel_ref, int(pixel_ref*W/H)), interpolation=interpolation)
+                    ref_mask.append(ref_mask_resized)
+                    labeled_mask_resised=cv.resize(mask_1_pers, (pixel_ref, int(pixel_ref*W/H)), interpolation=interpolation)
+                    labeled_mask.append(labeled_mask_resised)
                     
                     
         
@@ -137,7 +139,7 @@ def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100)
                     dtype=np.int32
                 )
                 try:
-                    del mask_2_rev, mask_2_pers
+                    del mask_2_rev, mask_2_pers, ref_mask_resized, labeled_mask_resised
                 except:
                     pass
                 
@@ -155,7 +157,9 @@ def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100)
                     cv.fillPoly(mask_2_pers, [puntos_p], color=1)
                     dice_coef_list.append(dice_coef(mask_2_pers, mask_2_rev, title="Cruce en etiqueta Sinflorecencia"))
                     
-                    ref_mask.append(cv.resize(mask_2_rev, (pixel_ref, int(pixel_ref*W/H)), interpolation=cv.INTER_AREA).flatten())
-                    labeled_mask.append(cv.resize(mask_2_pers, (pixel_ref, int(pixel_ref*W/H)), interpolation=cv.INTER_AREA).flatten())
+                    ref_mask_resized=cv.resize(mask_2_rev, (pixel_ref, int(pixel_ref*W/H)), interpolation=interpolation)
+                    ref_mask.append(ref_mask_resized)
+                    labeled_mask_resised=cv.resize(mask_2_pers, (pixel_ref, int(pixel_ref*W/H)), interpolation=interpolation)
+                    labeled_mask.append(labeled_mask_resised)
                     
     return label_labeled, label_ref, num_obj_labeled, num_obj_ref, dice_coef_list, labeled_mask, ref_mask
