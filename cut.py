@@ -124,8 +124,10 @@ def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100,
                     dice_coef_list.append(dice_coef(mask_1_pers, mask_1_rev, title="Pic"))
                     
                     ref_mask_resized=cv.resize(mask_1_rev, (pixel_ref, int(pixel_ref*W/H)), interpolation=interpolation)
+                    ref_mask_resized=ref_mask_resized.reshape(-1)
                     ref_mask.append(ref_mask_resized)
                     labeled_mask_resised=cv.resize(mask_1_pers, (pixel_ref, int(pixel_ref*W/H)), interpolation=interpolation)
+                    labeled_mask_resised=labeled_mask_resised.reshape(-1)
                     labeled_mask.append(labeled_mask_resised)
                     
                     
@@ -158,8 +160,10 @@ def df_dice_image(H, W, annotations_revisor, annotations_persona, pixel_ref=100,
                     dice_coef_list.append(dice_coef(mask_2_pers, mask_2_rev, title="Cruce en etiqueta Sinflorecencia"))
                     
                     ref_mask_resized=cv.resize(mask_2_rev, (pixel_ref, int(pixel_ref*W/H)), interpolation=interpolation)
+                    ref_mask_resized=ref_mask_resized.reshape(-1)
                     ref_mask.append(ref_mask_resized)
                     labeled_mask_resised=cv.resize(mask_2_pers, (pixel_ref, int(pixel_ref*W/H)), interpolation=interpolation)
+                    labeled_mask_resised=labeled_mask_resised.reshape(-1)
                     labeled_mask.append(labeled_mask_resised)
                     
     return label_labeled, label_ref, num_obj_labeled, num_obj_ref, dice_coef_list, labeled_mask, ref_mask
