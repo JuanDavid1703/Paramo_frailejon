@@ -191,6 +191,7 @@ def ver_mascara(path_data_base:str, name_pic:str, pixel_rate=256):
         ref_ima=df_filtered[df_filtered["Num_obj_ref"]==num]["ref_image_reduced"].values[0]
         ref_ima=ref_ima.reshape(len(ref_ima)//pixel_rate, pixel_rate)
         coef_dice=df_filtered[df_filtered["Num_obj_ref"]==num]["Dice_coef"].values[0].round(2)
+        label=df_filtered[df_filtered["Num_obj_ref"]==num]["Label_labeled"].values[0]
 
         fig, ax= plt.subplots(1, 2, figsize=(10, 5)) 
         ax[0].imshow(label_ima)
@@ -199,8 +200,8 @@ def ver_mascara(path_data_base:str, name_pic:str, pixel_rate=256):
         ax[1].set_title("Reference image")
         # Título general
         fig.suptitle(
-            f"coeficiente de dice {str(coef_dice)} de la imagen {name_pic} y el objeto numero {num}",
-            fontsize=16,
+            f"coeficiente de dice {str(coef_dice)} de la imagen {name_pic} y el objeto numero {num} con etiqueta {label}",
+            fontsize=14,
             fontweight="bold"
         )
 
